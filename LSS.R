@@ -29,12 +29,11 @@ topfeatures(dfmat_sent, 20)
 
 
 
-negatives <- data.frame(name = c("kontrovers*", "streit*", "debatte*", "abweichende*", "streiten*",
-                                 "feind*", "spannung", "hitzig", "heiß", "konflikt*", "umstritten", "streitsüchtig*", "verachtung*", 
-                                 "kluft", "zorn", "explodieren*", "ausbrechen*", "teilen*", "verachtung*", "wütend*", "gegner*", "opposition", 
-                                 "zusammenstoß*", "konkurrierend"),
-                        values = c(-1, -1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-                                   -1, -1, -1))
+negatives <- data.frame(name = c("kontrovers*", "debatte*", "abweichende*", "streiten*",
+                                  "spannung", "hitzig", "konflikt*", "umstritten", "streitsüchtig*", "verachtung*", 
+                                 "kluft", "zorn", "explodieren*", "ausbrechen*",  "verachtung*", "wütend*", "gegner*", "opposition", 
+                                  "konkurrierend"),
+                        values = c(-1, -1,-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1))
 
 positives <- data.frame(name = c("unterstützung", "kooperierend", "einvernehmen", "frieden", "respekt", "zusammenführen", "vereinen",
   "beruhigen", "übereinkunft", "friedfertig", "konsens*"), 
@@ -50,10 +49,10 @@ tmod_lss <- textmodel_lss(dfmat_sent, seeds = politicization, k = 300, cache = T
 
 head(coef(tmod_lss), 20) # most positive words
 tail(coef(tmod_lss), 20) # most negative words
-dict <- dictionary(list(negative =  c("kontrovers*", "streit*", "debatte*", "abweichende*", "streiten*",
-                                      "feind*", "spannung", "hitzig", "heiß", "konflikt*", "umstritten", "streitsüchtig*", "verachtung*", 
-                                      "kluft", "zorn", "explodieren*", "ausbrechen*", "teilen*", "verachtung*", "wütend*", "gegner*", "opposition", 
-                                      "zusammenstoß*", "konkurrierend"),
+dict <- dictionary(list(negative =  c("kontrovers*", "debatte*", "abweichende*", "streiten*",
+                                       "spannung", "hitzig", "konflikt*", "umstritten", "streitsüchtig*", "verachtung*", 
+                                      "kluft", "zorn", "explodieren*", "ausbrechen*", "verachtung*", "wütend*", "gegner*", "opposition", 
+                                      "konkurrierend"),
                         positive = c("unterstützung", "kooperierend", "einvernehmen", "frieden", "respekt", "zusammenführen", "vereinen",
                                       "beruhigen", "übereinkunft", "friedfertig", "konsens*")))
 
