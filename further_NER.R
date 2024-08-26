@@ -4,6 +4,8 @@ library(stringr)
 library(stringi)
 library(data.table)
 library(writexl)
+library(readr)
+
 first <- read_csv(here("ner_output_1.csv"))
 second <- read_csv(here("ner_output_2.csv"))
 third <- read_csv(here("ner_output_3.csv"))
@@ -69,8 +71,6 @@ names(specific_points_1)
 
 
 # here, we derive actors and 2 sentence window
-library(readr)
-
 names(specific_points_1)
 experiments_2sentence_window <- specific_points_1 %>% select(link_to, title, article, date_to, Name, Type)
 #Encoding(experiments_2sentence_window$Name) <- 'UTF-8'
@@ -137,5 +137,110 @@ n_distinct(validation_100$link_to)
 validation_100$id <- seq.int(nrow(validation_100))
 save(validation_100, file = "validation_100.RData")
 write_xlsx(validation_100, "validation_tonline.xlsx") 
+
+
+
+
+# the second approach with tokenizers. ------------------------------------
+
+library(tokenizers)
+
+
+extract_and_expand_2 <- function(article, name, type, link_to) {
+  # Split the article into sentences
+  sentences <- unlist(tokenize_sentences(article))
+  
+  # Find the positions of sentences containing the name, ignoring case
+  name_positions <- grep(name, sentences, ignore.case = TRUE)
+  
+  # Extract contexts if name positions are found
+  contexts <- lapply(name_positions, function(pos) {
+    start <- max(1, pos - 2)
+    end <- min(length(sentences), pos + 2)
+    context <- sentences[pos]
+    expanded_context <- paste(sentences[start:end], collapse = ".")
+    data.frame(article = article, context = context, expanded_context = expanded_context, name = name, Type = type, link_to = link_to)
+  })
+  
+  # Return the extracted contexts or a dataframe with NAs if no matches are found
+  if (length(contexts) > 0) {
+    return(do.call(rbind, contexts))
+  } else {
+    return(data.frame(article = article, context = NA, expanded_context = NA, name = name, Type = type, link_to = link_to))
+  }
+}
+
+
+
+
+# test --------------------------------------------------------------------
+
+extract_and_expand_2 <- function(article, name, type, link_to) {
+  # Ensure that the article is not empty and is a character vector
+  if (!is.character(article) || length(article) != 1) {
+    stop("The article must be a non-empty single string.")
+  }
+  
+  # Tokenize the article into sentences
+  sentences <- unlist(tokenize_sentences(article))
+  
+  # Find the positions of sentences containing the name, ignoring case
+  name_positions <- grep(name, sentences, ignore.case = TRUE)
+  
+  # Extract contexts if name positions are found
+  if (length(name_positions) > 0) {
+    contexts <- lapply(name_positions, function(pos) {
+      # Define start and end of the expanded context window
+      start <- max(1, pos - 2)
+      end <- min(length(sentences), pos + 2)
+      
+      # Extract the context and expanded context
+      context <- sentences[pos]
+      expanded_context <- paste(sentences[start:end], collapse = " ")
+      
+      # Create a data frame with the extracted data
+      data.frame(article = article, 
+                 context = context, 
+                 expanded_context = expanded_context, 
+                 name = name, 
+                 Type = type, 
+                 link_to = link_to,
+                 stringsAsFactors = FALSE)
+    })
+    
+    # Combine all the contexts into a single data frame
+    return(do.call(rbind, contexts))
+  } else {
+    # Return a data frame with NAs if no matches are found
+    return(data.frame(article = article, 
+                      context = NA, 
+                      expanded_context = NA, 
+                      name = name, 
+                      Type = type, 
+                      link_to = link_to,
+                      stringsAsFactors = FALSE))
+  }
+}
+
+experiments_2sentence_window_2 <- specific_points_1 %>% select(link_to, title, article, date_to, Name, Type)
+
+
+experiments_2sentence_window_2 <- data.frame(
+  articles = experiments_2sentence_window_2$article,
+  Name = stri_enc_toutf8(experiments_2sentence_window_2$Name),
+  Type = experiments_2sentence_window_2$Type,
+  link_to = experiments_2sentence_window_2$link_to,
+  stringsAsFactors = FALSE)
+experiments_2sentence_window_2 <- experiments_2sentence_window_2 %>%
+  rowwise() %>%
+  do(extract_and_expand_2(.$articles, .$Name, .$Type, .$link_to)) %>%
+  ungroup()
+experiments_2sentence_window_2 <- experiments_2sentence_window_2 %>% distinct()
+table(is.na(experiments_2sentence_window_2$context))
+table(is.na(experiments_2sentence_window_2$expanded_context))
+
+
+
+
 
 
