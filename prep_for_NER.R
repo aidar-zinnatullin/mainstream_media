@@ -24,7 +24,20 @@ write_csv(covid_tonline_4, file = "csv_for_ner_vienna_4.csv")
 
 # for HPC -----------------------------------------------------------------
 
-covid_tonline_5 <- covid_tonline[c(7401:14802),]
+covid_tonline_5 <- covid_tonline[c(7401:8400),]
 covid_tonline_5$lemmatized_text <- NULL
 write_csv(covid_tonline_5, file = "csv_for_ner_vienna_5.csv")
+
+
+covid_tonline_6 <- covid_tonline[c(8401:9400),]
+covid_tonline_6$lemmatized_text <- NULL
+write_csv(covid_tonline_6, file = "csv_for_ner_vienna_6.csv")
+
+
+covid_tonline_7 <- covid_tonline[c(9401:10400),]
+covid_tonline_7$lemmatized_text <- NULL
+write_csv(covid_tonline_7, file = "csv_for_ner_vienna_7.csv")
+
+
+
 
