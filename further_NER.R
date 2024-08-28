@@ -10,21 +10,27 @@ first <- read_csv(here("ner_output_1.csv"))
 second <- read_csv(here("ner_output_2.csv"))
 third <- read_csv(here("ner_output_3.csv"))
 fourth <- read_csv(here("output_test.csv"))
+fifth <- read_csv(here("output_5.csv"))
+sixth <- read_csv(here("output_6.csv"))
+
 
 names(first)
 names(second)
 names(third)
 names(fourth)
+names(fifth)
+names(sixth)
+
 table(first$id_article %in% second$id_article)
 table(third$id_article %in% fourth$id_article)
 
-temp_all <- rbind(first, second, third, fourth) 
+temp_all <- rbind(first, second, third, fourth, fifth, sixth) 
 
 # randomly select 100 articles
 
 set.seed(123)
 temp_all %>% 
-  sample_n(100)  -> sample_articles
+  sample_n(1000)  -> sample_articles
 table(sample_articles$id_article %in% first$id_article)
 
 
@@ -146,7 +152,7 @@ write_xlsx(validation_100, "validation_tonline.xlsx")
 library(tokenizers)
 
 
-extract_and_expand_2 <- function(article, name, type, link_to) {
+#extract_and_expand_2 <- function(article, name, type, link_to) {
   # Split the article into sentences
   sentences <- unlist(tokenize_sentences(article))
   
@@ -240,6 +246,18 @@ table(is.na(experiments_2sentence_window_2$context))
 table(is.na(experiments_2sentence_window_2$expanded_context))
 
 
+# thousand statements for validation --------------------------------------
+
+
+experiments_2sentence_window_2 <- experiments_2sentence_window_2 %>% filter(is.na(expanded_context)!=TRUE) # as a solution, I can manually add everythin
+set.seed(123)
+validation_1000 <- experiments_2sentence_window_2 %>% slice_sample(n = 1000)
+n_distinct(validation_1000$link_to)
+validation_1000$id <- seq.int(nrow(validation_1000))
+save(validation_1000, file = "validation_1000.RData")
+validation_1000$context <- NULL
+#write_xlsx(validation_1000, "validation_tonline_1000.xlsx") 
+write_csv(validation_1000, "validation_tonline_1000.csv")
 
 
 
