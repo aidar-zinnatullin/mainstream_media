@@ -39,5 +39,34 @@ covid_tonline_7$lemmatized_text <- NULL
 write_csv(covid_tonline_7, file = "csv_for_ner_vienna_7.csv")
 
 
+covid_tonline_8 <- covid_tonline[c(10401:11400),]
+covid_tonline_8$lemmatized_text <- NULL
+write_csv(covid_tonline_8, file = "csv_for_ner_vienna_8.csv")
+
+
+
+covid_tonline_9 <- covid_tonline[c(11401:12400),]
+covid_tonline_9$lemmatized_text <- NULL
+write_csv(covid_tonline_9, file = "csv_for_ner_vienna_9.csv")
+
+
+covid_tonline_10 <- covid_tonline[c(12401:13400),]
+covid_tonline_10$lemmatized_text <- NULL
+write_csv(covid_tonline_10, file = "csv_for_ner_vienna_10.csv")
+
+
+
+covid_tonline_11 <- covid_tonline[c(13401:14400),]
+covid_tonline_11$lemmatized_text <- NULL
+write_csv(covid_tonline_11, file = "csv_for_ner_vienna_11.csv")
+
+
+covid_tonline_12 <- covid_tonline[c(14401:15400),]
+covid_tonline_12$lemmatized_text <- NULL
+write_csv(covid_tonline_12, file = "csv_for_ner_vienna_12.csv")
+
+
+
+
 
 
