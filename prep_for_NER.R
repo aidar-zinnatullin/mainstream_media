@@ -65,8 +65,70 @@ covid_tonline_12 <- covid_tonline[c(14401:15400),]
 covid_tonline_12$lemmatized_text <- NULL
 write_csv(covid_tonline_12, file = "csv_for_ner_vienna_12.csv")
 
+covid_tonline_13 <- covid_tonline[c(15401:16400),]
+covid_tonline_13$lemmatized_text <- NULL
+write_csv(covid_tonline_13, file = "csv_for_ner_vienna_13.csv")
 
 
+covid_tonline_14 <- covid_tonline[c(16401:17400),]
+covid_tonline_14$lemmatized_text <- NULL
+write_csv(covid_tonline_14, file = "csv_for_ner_vienna_14.csv")
 
+
+covid_tonline_15 <- covid_tonline[c(17401:18400),]
+covid_tonline_15$lemmatized_text <- NULL
+write_csv(covid_tonline_15, file = "csv_for_ner_vienna_15.csv")
+
+
+covid_tonline_16 <- covid_tonline[c(18401:19400),]
+covid_tonline_16$lemmatized_text <- NULL
+write_csv(covid_tonline_16, file = "csv_for_ner_vienna_16.csv")
+
+
+# new batch ---------------------------------------------------------------
+
+covid_tonline_17 <- covid_tonline[c(19401:20400),]
+covid_tonline_17$lemmatized_text <- NULL
+write_csv(covid_tonline_17, file = "csv_for_ner_vienna_17.csv")
+
+
+covid_tonline_18 <- covid_tonline[c(20401:21400),]
+covid_tonline_18$lemmatized_text <- NULL
+write_csv(covid_tonline_18, file = "csv_for_ner_vienna_18.csv")
+
+
+# three new sets ----------------------------------------------------------
+
+covid_tonline_19 <- covid_tonline[c(21401:22400),]
+covid_tonline_19$lemmatized_text <- NULL
+write_csv(covid_tonline_19, file = "csv_for_ner_vienna_19.csv")
+
+covid_tonline_20 <- covid_tonline[c(22401:23400),]
+covid_tonline_20$lemmatized_text <- NULL
+write_csv(covid_tonline_20, file = "csv_for_ner_vienna_20.csv")
+
+covid_tonline_21 <- covid_tonline[c(23401:24400),]
+covid_tonline_21$lemmatized_text <- NULL
+write_csv(covid_tonline_21, file = "csv_for_ner_vienna_21.csv")
+
+covid_tonline_22 <- covid_tonline[c(24401:25400),]
+covid_tonline_22$lemmatized_text <- NULL
+write_csv(covid_tonline_22, file = "csv_for_ner_vienna_22.csv")
+
+
+# two new -----------------------------------------------------------------
+
+covid_tonline_23 <- covid_tonline[c(25401:26400),]
+covid_tonline_23$lemmatized_text <- NULL
+write_csv(covid_tonline_23, file = "csv_for_ner_vienna_23.csv")
+
+covid_tonline_24 <- covid_tonline[c(26401:27400),]
+covid_tonline_24$lemmatized_text <- NULL
+write_csv(covid_tonline_24, file = "csv_for_ner_vienna_24.csv")
+
+
+covid_tonline_25 <- covid_tonline[c(27401:28400),]
+covid_tonline_25$lemmatized_text <- NULL
+write_csv(covid_tonline_25, file = "csv_for_ner_vienna_25.csv")
 
 
