@@ -131,4 +131,43 @@ covid_tonline_25 <- covid_tonline[c(27401:28400),]
 covid_tonline_25$lemmatized_text <- NULL
 write_csv(covid_tonline_25, file = "csv_for_ner_vienna_25.csv")
 
+covid_tonline_26 <- covid_tonline[c(28401:29400),]
+covid_tonline_26$lemmatized_text <- NULL
+write_csv(covid_tonline_26, file = "csv_for_ner_vienna_26.csv")
 
+
+covid_tonline_27 <- covid_tonline[c(29401:30166),]
+covid_tonline_27$lemmatized_text <- NULL
+write_csv(covid_tonline_27, file = "csv_for_ner_vienna_27.csv")
+
+# combine all -------------------------------------------------------------
+output_1 <- read_csv("ner_output_1.csv")
+output_2 <- read_csv("ner_output_2.csv")
+output_3 <- read_csv("ner_output_3.csv")
+output_4 <- read_csv("output_test.csv")
+output_5 <- read_csv("output_5.csv")
+output_6 <- read_csv("output_6.csv")
+output_7 <- read_csv("output_7.csv")
+output_8 <- read_csv("output_8.csv")
+output_9 <- read_csv("output_9.csv")
+output_10 <- read_csv("output_10.csv")
+output_11 <- read_csv("output_11.csv")
+output_12 <- read_csv("output_12.csv")
+output_13 <- read_csv("output_13.csv")
+output_14 <- read_csv("output_14.csv")
+output_15 <- read_csv("output_15.csv")
+output_16 <- read_csv("output_16.csv")
+output_17 <- read_csv("output_17.csv")
+output_18 <- read_csv("output_18.csv")
+output_19 <- read_csv("output_19.csv")
+output_20 <- read_csv("output_20.csv")
+output_21 <- read_csv("output_21.csv")
+output_22 <- read_csv("output_22.csv")
+output_23 <- read_csv("output_23.csv")
+output_24 <- read_csv("output_24.csv")
+output_25 <- read_csv("output_25.csv")
+output_26 <- read_csv("output_26.csv")
+output_27 <- read_csv("output_27.csv")
+
+overall_ner <- rbind(output_1, output_2, output_3, output_4, output_5, output_6, output_7, output_8, output_9, output_10, output_11, output_12, output_13, output_14, output_15, output_16, output_17, output_18, output_19, output_20, output_21, output_22, output_23, output_24, output_25, output_26, output_27)
+nrow(overall_ner)==nrow(covid_tonline)
