@@ -85,7 +85,7 @@ ggplot() +
   geom_line(data = dat_smooth, aes(x = date, y = fit + se.fit * 1.96), linetype = "dotted") +
   geom_line(data = dat_smooth, aes(x = date, y = fit - se.fit * 1.96), linetype = "dotted") +
   geom_hline(yintercept = 0, linetype = "dashed") +
-  labs(x = "Time", y = "Sentiment towards Scientific Information about COVID-19") +
+  labs(x = "Time", y = "Sentiment of News about COVID-19 in T-Online") +
   ylim(c(-0.5, 0.5)) +
   #geom_vline(xintercept = as.Date("2021-07-01"), linetype = "dotted", color = "black") +
   #annotate("text", label= "Floods in Germany and the climate debate, July 2021", x = as.Date("2021-07-01"), y = 0.4, vjust = -1, color = "black") +
