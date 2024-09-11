@@ -116,4 +116,6 @@ experiments_2sentence_window_2 <- experiments_2sentence_window_2 %>% filter(is.n
 names(experiments_2sentence_window_2)
 elwe_t_online_version <- experiments_2sentence_window_2 %>% select(expanded_context, name, link_to)
 write_csv(elwe_t_online_version, here("t_online_personalities_whole_corpus.csv"))
+save(elwe_t_online_version, file = here("t_online_personalities_whole_corpus.RData"))
 
+     
