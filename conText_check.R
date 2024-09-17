@@ -37,7 +37,7 @@ save(toks_nostop, corpus_tonline, toks, feats, file = "scrutinize_fasttext/every
 
 
 # ConText Analysis---------------------------------------------
-
+load("scrutinize_fasttext/everything_t_online.RData")
 transform <- readRDS(here("..", "..", "Telegram in Germany Corona related topics", "fastText", "fasttext_transform_dewiki_25.rds"))
 not_all_na <- function(x) any(!is.na(x))
 fasttext <-  setDT(read_delim(here("..", "..", "Telegram in Germany Corona related topics", "fastText", "fasttext_vectors_dewiki.vec"),
@@ -266,4 +266,175 @@ ggplot(checks_lockdown, aes(x = week, y = s_mean, color = `Candidate Words`)) +
   theme_minimal()
 
 ggsave(here("Figures",  "lockdown_support_criticism.jpeg"), width = 9, height = 6, dpi = 300)
+
+
+
+
+# parties -----------------------------------------------------------------
+
+# focus on only one policy measure: cdu -----------------------------
+
+
+target_toks_cdu <- tokens_context(x = toks_nostop, pattern = c("cdu"), window = 5L)
+model_dfm_cdu <- dfm(target_toks_cdu)
+
+model_dem_cdu <- dem(x = model_dfm_cdu, pre_trained = word_vectors, transform = TRUE, transform_matrix = transform, verbose = TRUE)
+
+model_wv_cdu <- dem_group(model_dem_cdu, groups = model_dem_cdu@docvars$date_to)
+
+dataa_6 <- cos_sim(model_wv_cdu, pre_trained = word_vectors, features = c("kritik", 'unterstützung'), as_list = FALSE)
+dataa_6$target <-as.Date(dataa_6$target, format = "%Y-%m-%d")
+
+dataa_6 <- dataa_6 %>%  mutate(week = floor_date(as.Date(target), unit = "week"))
+table(is.na(dataa_6$week))
+
+
+checks_cdu <- dataa_6 %>% group_by(feature, week) %>% summarise(s_mean = mean(value))
+
+
+candidate_colors <- c(
+  'unterstützung' = 'green',  # green
+  'kritik' = '#d62728'        # red
+)
+unique(checks_cdu$week)
+names(checks_cdu)[1] <- "Candidate Words"
+ggplot(checks_cdu, aes(x = week, y = s_mean, color = `Candidate Words`)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "loess") +
+  scale_x_date(date_breaks = '6 month', date_labels = "%Y-%m") +
+  ylim(0, 0.5) +
+  #xlim(as.Date("2020-01-12"), as.Date("2020-09-06"))+
+  #geom_vline(xintercept = as.Date("2020-04-01"), linetype = "dotted", color = "slateblue4") +
+  #annotate("text", label= "Heinsberg study by Hendrik Streeck, 06.04.2020", x = as.Date("2021-01-01"), y = 0.4, vjust = -1, color = "slateblue4") +
+  
+  labs(y = "Cosine Similarity of CDU with Candidate Words: Criticism vs Protest", x = "Year-Month") +
+  scale_color_manual(values = candidate_colors) +
+  theme_minimal()
+
+ggsave(here("Figures",  "cdu_support_criticism.jpeg"), width = 9, height = 6, dpi = 300)
+
+# focus on only one policy measure: spd -----------------------------
+
+
+target_toks_spd <- tokens_context(x = toks_nostop, pattern = c("spd"), window = 5L)
+model_dfm_spd <- dfm(target_toks_spd)
+
+model_dem_spd <- dem(x = model_dfm_spd, pre_trained = word_vectors, transform = TRUE, transform_matrix = transform, verbose = TRUE)
+
+model_wv_spd <- dem_group(model_dem_spd, groups = model_dem_spd@docvars$date_to)
+
+dataa_6 <- cos_sim(model_wv_spd, pre_trained = word_vectors, features = c("kritik", 'unterstützung'), as_list = FALSE)
+dataa_6$target <-as.Date(dataa_6$target, format = "%Y-%m-%d")
+
+dataa_6 <- dataa_6 %>%  mutate(week = floor_date(as.Date(target), unit = "week"))
+table(is.na(dataa_6$week))
+
+
+checks_spd <- dataa_6 %>% group_by(feature, week) %>% summarise(s_mean = mean(value))
+
+
+candidate_colors <- c(
+  'unterstützung' = 'green',  # green
+  'kritik' = '#d62728'        # red
+)
+unique(checks_spd$week)
+names(checks_spd)[1] <- "Candidate Words"
+ggplot(checks_spd, aes(x = week, y = s_mean, color = `Candidate Words`)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "loess") +
+  scale_x_date(date_breaks = '6 month', date_labels = "%Y-%m") +
+  ylim(0, 0.5) +
+  #xlim(as.Date("2020-01-12"), as.Date("2020-09-06"))+
+  #geom_vline(xintercept = as.Date("2020-04-01"), linetype = "dotted", color = "slateblue4") +
+  #annotate("text", label= "Heinsberg study by Hendrik Streeck, 06.04.2020", x = as.Date("2021-01-01"), y = 0.4, vjust = -1, color = "slateblue4") +
+  
+  labs(y = "Cosine Similarity of SPD with Candidate Words: Criticism vs Protest", x = "Year-Month") +
+  scale_color_manual(values = candidate_colors) +
+  theme_minimal()
+
+ggsave(here("Figures",  "spd_support_criticism.jpeg"), width = 9, height = 6, dpi = 300)
+
+
+# focus on only one policy measure: afd -----------------------------
+
+
+target_toks_afd <- tokens_context(x = toks_nostop, pattern = c("afd"), window = 5L)
+model_dfm_afd <- dfm(target_toks_afd)
+
+model_dem_afd <- dem(x = model_dfm_afd, pre_trained = word_vectors, transform = TRUE, transform_matrix = transform, verbose = TRUE)
+
+model_wv_afd <- dem_group(model_dem_afd, groups = model_dem_afd@docvars$date_to)
+
+dataa_6 <- cos_sim(model_wv_afd, pre_trained = word_vectors, features = c("kritik", 'unterstützung'), as_list = FALSE)
+dataa_6$target <-as.Date(dataa_6$target, format = "%Y-%m-%d")
+
+dataa_6 <- dataa_6 %>%  mutate(week = floor_date(as.Date(target), unit = "week"))
+table(is.na(dataa_6$week))
+
+
+checks_afd <- dataa_6 %>% group_by(feature, week) %>% summarise(s_mean = mean(value))
+
+
+candidate_colors <- c(
+  'unterstützung' = 'green',  # green
+  'kritik' = '#d62728'        # red
+)
+unique(checks_afd$week)
+names(checks_afd)[1] <- "Candidate Words"
+ggplot(checks_afd, aes(x = week, y = s_mean, color = `Candidate Words`)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "loess") +
+  scale_x_date(date_breaks = '6 month', date_labels = "%Y-%m") +
+  ylim(0, 0.5) +
+  #xlim(as.Date("2020-01-12"), as.Date("2020-09-06"))+
+  #geom_vline(xintercept = as.Date("2020-04-01"), linetype = "dotted", color = "slateblue4") +
+  #annotate("text", label= "Heinsberg study by Hendrik Streeck, 06.04.2020", x = as.Date("2021-01-01"), y = 0.4, vjust = -1, color = "slateblue4") +
+  
+  labs(y = "Cosine Similarity of AFD with Candidate Words: Criticism vs Protest", x = "Year-Month") +
+  scale_color_manual(values = candidate_colors) +
+  theme_minimal()
+
+ggsave(here("Figures",  "afd_support_criticism.jpeg"), width = 9, height = 6, dpi = 300)
+
+
+# focus on only one policy measure: grünen -----------------------------
+
+
+target_toks_grünen <- tokens_context(x = toks_nostop, pattern = c("grünen"), window = 5L)
+model_dfm_grünen <- dfm(target_toks_grünen)
+
+model_dem_grünen <- dem(x = model_dfm_grünen, pre_trained = word_vectors, transform = TRUE, transform_matrix = transform, verbose = TRUE)
+
+model_wv_grünen <- dem_group(model_dem_grünen, groups = model_dem_grünen@docvars$date_to)
+
+dataa_6 <- cos_sim(model_wv_grünen, pre_trained = word_vectors, features = c("kritik", 'unterstützung'), as_list = FALSE)
+dataa_6$target <-as.Date(dataa_6$target, format = "%Y-%m-%d")
+
+dataa_6 <- dataa_6 %>%  mutate(week = floor_date(as.Date(target), unit = "week"))
+table(is.na(dataa_6$week))
+
+
+checks_grünen <- dataa_6 %>% group_by(feature, week) %>% summarise(s_mean = mean(value))
+
+
+candidate_colors <- c(
+  'unterstützung' = 'green',  # green
+  'kritik' = '#d62728'        # red
+)
+unique(checks_grünen$week)
+names(checks_grünen)[1] <- "Candidate Words"
+ggplot(checks_grünen, aes(x = week, y = s_mean, color = `Candidate Words`)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "loess") +
+  scale_x_date(date_breaks = '6 month', date_labels = "%Y-%m") +
+  ylim(0, 0.5) +
+  #xlim(as.Date("2020-01-12"), as.Date("2020-09-06"))+
+  #geom_vline(xintercept = as.Date("2020-04-01"), linetype = "dotted", color = "slateblue4") +
+  #annotate("text", label= "Heinsberg study by Hendrik Streeck, 06.04.2020", x = as.Date("2021-01-01"), y = 0.4, vjust = -1, color = "slateblue4") +
+  
+  labs(y = "Cosine Similarity of Grünen with Candidate Words: Criticism vs Protest", x = "Year-Month") +
+  scale_color_manual(values = candidate_colors) +
+  theme_minimal()
+
+ggsave(here("Figures",  "grünen_support_criticism.jpeg"), width = 9, height = 6, dpi = 300)
 
