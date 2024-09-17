@@ -438,3 +438,6 @@ ggplot(checks_grünen, aes(x = week, y = s_mean, color = `Candidate Words`)) +
 
 ggsave(here("Figures",  "grünen_support_criticism.jpeg"), width = 9, height = 6, dpi = 300)
 
+
+
+
