@@ -438,6 +438,47 @@ ggplot(checks_grünen, aes(x = week, y = s_mean, color = `Candidate Words`)) +
 
 ggsave(here("Figures",  "grünen_support_criticism.jpeg"), width = 9, height = 6, dpi = 300)
 
+# focus on only one policy measure: bundesregierung -----------------------------
+
+
+target_toks_bundesregierung <- tokens_context(x = toks_nostop, pattern = c("protest*"), window = 5L)
+model_dfm_bundesregierung <- dfm(target_toks_bundesregierung)
+
+model_dem_bundesregierung <- dem(x = model_dfm_bundesregierung, pre_trained = word_vectors, transform = TRUE, transform_matrix = transform, verbose = TRUE)
+
+model_wv_bundesregierung <- dem_group(model_dem_bundesregierung, groups = model_dem_bundesregierung@docvars$date_to)
+
+dataa_6 <- cos_sim(model_wv_bundesregierung, pre_trained = word_vectors, features = c( "opposition", "regierung"), as_list = FALSE)
+dataa_6$target <-as.Date(dataa_6$target, format = "%Y-%m-%d")
+
+dataa_6 <- dataa_6 %>%  mutate(week = floor_date(as.Date(target), unit = "week"))
+table(is.na(dataa_6$week))
+
+
+checks_bundesregierung <- dataa_6 %>% group_by(feature, week) %>% summarise(s_mean = mean(value))
+
+
+candidate_colors <- c(
+  'regierung' = 'green',  # green
+  'opposition' = '#d62728'        # red
+)
+unique(checks_bundesregierung$week)
+names(checks_bundesregierung)[1] <- "Candidate Words"
+ggplot(checks_bundesregierung, aes(x = week, y = s_mean, color = `Candidate Words`)) +
+  geom_point(alpha = 0.3) +
+  geom_smooth(method = "loess") +
+  scale_x_date(date_breaks = '6 month', date_labels = "%Y-%m") +
+  ylim(0, 0.5) +
+  #xlim(as.Date("2020-01-12"), as.Date("2020-09-06"))+
+  #geom_vline(xintercept = as.Date("2020-04-01"), linetype = "dotted", color = "slateblue4") +
+  #annotate("text", label= "Heinsberg study by Hendrik Streeck, 06.04.2020", x = as.Date("2021-01-01"), y = 0.4, vjust = -1, color = "slateblue4") +
+  
+  labs(y = "Cosine Similarity of bundesregierung with Candidate Words: Criticism vs Protest", x = "Year-Month") +
+  scale_color_manual(values = candidate_colors) +
+  theme_minimal()
+
+ggsave(here("Figures",  "bundesregierung_support_criticism.jpeg"), width = 9, height = 6, dpi = 300)
+
 
 
 
