@@ -280,6 +280,25 @@ studie_t_online$article <- NULL
 # write_xlsx(studie_t_online, "studie_tonline.xlsx") 
 write_xlsx(studie_t_online, "studie_tonline_ver_2.xlsx") 
 
+names(studie_t_online)
+studie_t_online_without_actors <- studie_t_online %>% filter(name != "Hendrik Streeck" & 
+                                                               name != "Christian Drosten" & 
+                                                               name != "Donald Trump" &
+                                                               name != "Jair Bolsenaro" &
+                                                               name != "Melanie Brinkmann" &
+                                                               name != "Tobias Hubert" &
+                                                               name != "Wladimir Putin" &
+                                                               name != "Susanne Modrow" &
+                                                               name != "Andreas Radbruch")
+
+studie_t_online_without_actors$context <- NULL
+studie_t_online_without_actors$article <- NULL
+
+
+write_xlsx(studie_t_online_without_actors, "studie_tonline_ver_3.xlsx") 
+
+
+
 
 
 
