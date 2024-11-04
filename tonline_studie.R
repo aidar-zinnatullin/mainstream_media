@@ -267,6 +267,8 @@ table(experiments_2sentence_window_2$studie)
 
 studie_t_online <- experiments_2sentence_window_2 %>% filter(studie==1)
 
+nrow(studie_t_online)/nrow(experiments_2sentence_window_2) # 0.03554835
+
 table(studie_t_online$studie)
 
 studie_t_online$id <- seq.int(nrow(studie_t_online))
