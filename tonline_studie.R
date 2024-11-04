@@ -247,23 +247,36 @@ table(is.na(experiments_2sentence_window_2$expanded_context))
 
 
 experiments_2sentence_window_2 <- experiments_2sentence_window_2 %>% filter(is.na(expanded_context)!=TRUE) # as a solution, I can manually add everythin
+table(is.na(experiments_2sentence_window_2$expanded_context))
 
 
 names(experiments_2sentence_window_2)
+# experiments_2sentence_window_2$studie <- ifelse(
+#   grepl("*studie*", experiments_2sentence_window_2$expanded_context, ignore.case = TRUE),
+#   1, 0
+# )
+# table(experiments_2sentence_window_2$studie)
+
 experiments_2sentence_window_2$studie <- ifelse(
-  grepl("*studie*", experiments_2sentence_window_2$expanded_context, ignore.case = TRUE),
+  grepl("\\b(studie|studien)\\b[ .,;:]", experiments_2sentence_window_2$expanded_context, ignore.case = TRUE),
   1, 0
 )
+table(experiments_2sentence_window_2$studie)
+
+
 
 studie_t_online <- experiments_2sentence_window_2 %>% filter(studie==1)
 
 table(studie_t_online$studie)
 
 studie_t_online$id <- seq.int(nrow(studie_t_online))
-save(studie_t_online, file = "studie_1500.RData")
+# save(studie_t_online, file = "studie_1500.RData")
+save(studie_t_online, file = "studie_862.RData")
+
 studie_t_online$context <- NULL
 studie_t_online$article <- NULL
-write_xlsx(studie_t_online, "studie_tonline.xlsx") 
+# write_xlsx(studie_t_online, "studie_tonline.xlsx") 
+write_xlsx(studie_t_online, "studie_tonline_ver_2.xlsx") 
 
 
 
